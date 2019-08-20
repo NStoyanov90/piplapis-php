@@ -1,6 +1,6 @@
 <?php
 
-require 'search.php';
+namespace Pipl;
 
 /**
  * User: caligula

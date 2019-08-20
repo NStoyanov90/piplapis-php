@@ -10,6 +10,11 @@
   "suggest": {
     "ext-mbstring": "*"
   },
+  "autoload": {
+    "psr-4": {
+        "Pipl\\": "./src/piplapis/"
+    }
+  },
   "authors": [
     {
       "name": "Josh Liberty",
@@ -19,8 +24,5 @@
       "name": "RJ Hallsted",
       "email": "rjhallsted@gmail.com"
     }
-  ],
-  "autoload": {
-      "classmap": ["src/piplapis/", "src/piplapis/data/"]
-  }
+  ]
 }
