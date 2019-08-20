@@ -3,8 +3,9 @@
 namespace Pipl\Exceptions;
 
 use DateTime;
+use Pipl\APIUtil;
 
-class APIException extends Exception
+class APIException extends \Exception
 {
     // An exception raised when the response from the API contains an error.
     private $error;
@@ -73,7 +74,7 @@ class APIException extends Exception
         $quota_allotted = !empty($headers['x-apikey-quota-allotted']) ? intval($headers['x-apikey-quota-allotted']) : null;
         $quota_current = !empty($headers['x-apikey-quota-current']) ? intval($headers['x-apikey-quota-current']) : null;
         $quota_reset = !empty($headers['x-quota-reset']) ?
-            DateTime::createFromFormat(PiplApi_Utils::PIPLAPI_DATE_QUOTA_RESET, $headers['x-quota-reset']) : null;
+            DateTime::createFromFormat(APIUtil::PIPLAPI_DATE_QUOTA_RESET, $headers['x-quota-reset']) : null;
         $qps_live_allotted = !empty($headers['x-qps-live-allotted']) ? intval($headers['x-qps-live-allotted']) : null;
         $qps_live_current = !empty($headers['x-qps-live-current']) ? intval($headers['x-qps-live-current']) : null;
         $qps_demo_allotted = !empty($headers['x-qps-demo-allotted']) ? intval($headers['x-qps-demo-allotted']) : null;
@@ -81,7 +82,7 @@ class APIException extends Exception
         $demo_usage_allotted = !empty($headers['x-demo-usage-allotted']) ? intval($headers['x-demo-usage-allotted']) : null;
         $demo_usage_current = !empty($headers['x-demo-usage-current']) ? intval($headers['x-demo-usage-current']) : null;
         $demo_usage_expiry = !empty($headers['x-demo-usage-expiry']) ?
-            DateTime::createFromFormat(PiplApi_Utils::PIPLAPI_DATE_QUOTA_RESET, $headers['x-demo-usage-expiry']) : null;
+            DateTime::createFromFormat(APIUtil::PIPLAPI_DATE_QUOTA_RESET, $headers['x-demo-usage-expiry']) : null;
 
         $error = !empty($d['error']) ? $d['error'] : "";
         $warnings = !empty($d['warnings']) ? $d['warnings'] : "";
