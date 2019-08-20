@@ -252,8 +252,23 @@ class APIRequest
 
         $this->validate_query_params($strict_validation);
         $curl = curl_init();
-        $params = $this->get_query_params();
         $url = $this->get_base_url();
+        $params = $this->get_query_params();
+        $resp = $this->executeRequest($url, $params);
+
+        
+        list($header_raw, $body) = explode("\r\n\r\n", $resp, 2);
+        $headers = $this->extract_headers_from_curl($header_raw);
+
+        $res = APIResponse::from_array(json_decode($body, true), $headers);
+        // save the raw json to response object
+        $res->raw_json = $body;
+        return $res;
+    }
+
+    protected function executeRequest($url, $params)
+    {
+        $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_HEADER => 1,
@@ -264,21 +279,18 @@ class APIRequest
             CURLOPT_POSTFIELDS => $params,
             CURLOPT_HTTPHEADER => array('Expect:')
         ));
-        $resp = curl_exec($curl);
+
+        $response = curl_exec($curl);
 
         #https://github.com/zendframework/zend-http/issues/24
         #https://github.com/kriswallsmith/Buzz/issues/181
-        list($header_raw, $body) = explode("\r\n\r\n", $resp, 2);
+        list($header_raw, $body) = explode("\r\n\r\n", $response, 2);
         $headers = $this->extract_headers_from_curl($header_raw);
 
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         if (in_array($http_status, range(200, 299))) {
-            // Trying to parse header_raw from curl request
-            $res = APIResponse::from_array(json_decode($body, true), $headers);
-            // save the raw json to response object
-            $res->raw_json = $body;
-            return $res;
-        } elseif ($resp) {
+            return $response;
+        } elseif ($response) {
             $err = SearchAPIException::from_array(json_decode($body, true), $headers);
             throw $err;
         } else {
@@ -291,7 +303,7 @@ class APIRequest
         }
     }
 
-    private function get_effective_configuration()
+    protected function get_effective_configuration()
     {
         if (is_null($this->configuration)) {
             return self::get_default_configuration();
@@ -299,7 +311,7 @@ class APIRequest
         return $this->configuration;
     }
 
-    private function get_query_params()
+    protected function get_query_params()
     {
 
         $query = array('key' => $this->get_effective_configuration()->api_key);
@@ -336,13 +348,13 @@ class APIRequest
         return $query;
     }
 
-    private function get_base_url()
+    protected function get_base_url()
     {
         $prefix = $this->get_effective_configuration()->use_https ? "https://" : "http://";
         return $prefix . self::$base_url;
     }
 
-    private function extract_headers_from_curl($header_raw)
+    protected function extract_headers_from_curl($header_raw)
     {
         $headers = array();
         foreach (explode("\r\n", $header_raw) as $i => $line) {
