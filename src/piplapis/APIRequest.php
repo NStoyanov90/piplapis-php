@@ -4,12 +4,14 @@ namespace Pipl;
 
 use Pipl\APIUtil;
 use Pipl\APIResponse;
+use Pipl\Fields\DOBField;
 use Pipl\Fields\URLField;
 use Pipl\Fields\NameField;
 use Pipl\Containers\Person;
 use Pipl\Fields\EmailField;
 use Pipl\Fields\PhoneField;
 use Pipl\Fields\UserIdField;
+use Pipl\Fields\AddressField;
 use Pipl\Fields\UsernameField;
 use Pipl\APIRequestConfiguration;
 use Pipl\Exceptions\SearchAPIException;
