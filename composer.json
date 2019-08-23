@@ -1,7 +1,7 @@
 {
   "name": "nstoyanov90/piplapis-php",
   "description": "Client library for use with the Pipl search API",
-  "license": "APACHE2",
+  "license": "Apache-2.0",
   "homepage": "https://pipl.com/dev",
   "require": {
     "php": ">=5.3.0",
