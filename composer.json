@@ -1,5 +1,5 @@
 {
-  "name": "rjhallsted/piplapis-php",
+  "name": "nstoyanov90/piplapis-php",
   "description": "Client library for use with the Pipl search API",
   "license": "APACHE2",
   "homepage": "https://pipl.com/dev",
@@ -23,6 +23,10 @@
     {
       "name": "RJ Hallsted",
       "email": "rjhallsted@gmail.com"
+    },
+    {
+      "name": "Nikola Stoyanov",
+      "email": "nstoqnov@2create.studio"
     }
   ]
 }
