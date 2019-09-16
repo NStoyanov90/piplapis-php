@@ -59,7 +59,7 @@ class PhoneField extends Field
 
     public static function from_text($text)
     {
-        return new PiplApi_Phone(array('raw' => $text));
+        return new PhoneField(array('raw' => $text));
     }
 
 }
